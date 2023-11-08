@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  {% csrf_token %}
+  <title>Login Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body class="background-image">=
+  <div class="container">
+    <div class="form-container">
+        <img src="{% static 'MEDIA/gearspin.gif'%}"> 
+      <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" name="username" id="username" placeholder="Username" required>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+                  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
+        <p class="mt-3 font-weight-normal">Doesn't have an account? <a href="{%url 'registration' %}" ><strong>Sign Up</strong></a></p>
+        </ul>
+        <button type="submit" value="Login">Login</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
+
+
+<script type="text/javascript">
+  var user = '{{request.user}}'
+
+  function getToken(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+  var csrftoken = getToken('csrftoken')
+
+  function getCookie(name) {
+      // Split cookie string and get all individual name=value pairs in an array
+      var cookieArr = document.cookie.split(";");
+
+      // Loop through the array elements
+      for(var i = 0; i < cookieArr.length; i++) {
+          var cookiePair = cookieArr[i].split("=");
+
+          /* Removing whitespace at the beginning of the cookie name
+          and compare it with the given string */
+          if(name == cookiePair[0].trim()) {
+              // Decode the cookie value and return
+              return decodeURIComponent(cookiePair[1]);
+          }
+      }
+
+      // Return null if not found
+      return null;
+  }
+  var cart = JSON.parse(getCookie('cart'))
+
+  if (cart == undefined){
+    cart = {}
+    console.log('Cart Created!', cart)
+    document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+  }
+  console.log('Cart:', cart)
+
+</script>
+<style>
+
+/* Styles for Messages */
+
+/* Error Message */
+.messages .error {
+    color: #da0f0f; /* White text color */
+
+}
+
+
+/* Style the entire messages container */
+.messages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Style individual message items */
+.messages li {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+
+
+.background-image{
+  background-image: url("{% static 'MEDIA/bgred.png'%}");
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.p{
+  display: flex;
+  justify-content: center;
+}
+
+.form-container {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 5px;
+  margin: 10px;
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
+  
+}
+
+img {
+  display: block;
+  margin: auto;
+  width: 30%;
+  padding-bottom: 5%;
+}
+
+p {
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px;
+  background-color: #C41E3A;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #eb6b6b;
+}
+
+@media screen and (max-width: 480px) {
+  .form-container {
+    margin: 10px 0;
+  }
+}
+
+</style>

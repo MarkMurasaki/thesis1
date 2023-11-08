@@ -1,0 +1,79 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+{% csrf_token %}
+<div class="filter">
+	<a href="{% url 'store' %}" class="filter-button">Store 1</a>
+	<a href="{% url 'store2' %}" class="filter-button">Store 2</a>	
+	<a href="{% url 'store3' %}" class="filter-button">Store 3</a>
+</div>
+	<div class="row">
+		{% for product in products %}
+		{% if product.store_number == '3' %}
+			{% if product.type == 'MEALS' %}
+		<div class="col-lg-4">
+			<img class="thumbnail" src="{{product.imageURL}}">
+			<div class="box-element product">
+				<h6><strong>{{product.name}}</strong></h6>
+				<hr>
+
+				<button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+				
+				<a class="btn btn-outline-success" href="#">View</a>
+				<h4 class="display: inline-block; float:right"><strong>${{product.price}}</strong></h4>
+
+			</div>
+		</div>
+
+			{% endif %}
+		{% endif %}
+		{% endfor %}
+	</div>
+
+	<div class="row">
+		{% for product in products %}
+		{% if product.store_number == '3' %}
+			{% if product.type == 'DRINKS' %}
+		<div class="col-lg-4">
+			<img class="thumbnail" src="{{product.imageURL}}">
+			<div class="box-element product">
+				<h6><strong>{{product.name}}</strong></h6>
+				<hr>
+
+				<button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+				
+				<a class="btn btn-outline-success" href="#">View</a>
+				<h4 class="display: inline-block; float: right"><strong>${{product.price}}</strong></h4>
+
+			</div>
+		</div>
+		
+			{% endif %}
+		{% endif %}
+		{% endfor %}
+	</div>
+
+
+<style>
+
+.filter {
+    display: flex;
+
+    margin-top: 10px;
+}
+
+	.filter-button {
+		background-color: #007BFF;
+		color: #fff;
+		border: none;
+		padding: 10px 20px;
+		margin: 5px;
+		cursor: pointer;
+	}
+	
+	.filter-button:hover {
+		background-color: #0056b3;
+	}
+	</style>
+
+{% endblock content %}
